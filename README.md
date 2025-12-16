@@ -30,6 +30,10 @@ Dieses Projekt besteht aus zwei voneinander getrennten Microservices:
 
 ---
 
+
+![2025-12-1612-21-12-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/ba7a9e52-9635-4d2d-a774-5ebe750e6799)
+
+
 ## Frontend
 
 Das Frontend ist bewusst einfach gehalten (HTML + JavaScript) und dient zur Visualisierung des gesamten Prozesses.
