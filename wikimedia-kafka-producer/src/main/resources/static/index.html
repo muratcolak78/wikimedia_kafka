@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Wikimedia Live Stream</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        #log { border: 2px solid #ccc; height: 500px; overflow: auto; padding: 10px; }
+        button, input { padding: 8px; }
+    </style>
+</head>
+<body>
+<h2>Wikimedia -> Producer -> Kafka <- Consumer -> Frontend (SSE)</h2>
+<p> This application allows you to fetch real-time changes from Wikimedia for a specified duration, publish them to a Kafka server, consume them using a Kafka consumer, and persist the data into a database.
+    Additionally, you can control the process by providing custom parameters such as the streaming duration.</p>
+<input id="seconds" type="number" value="5" min="1" max="10"/>
+<button id="startBtn">Start</button>
+<select id="variableSelect">
+    <option value="Title">Title</option>
+    <option value="Comment">Comment</option>
+    <option value="User">User</option>
+    <option value="Parsed Comment">Parsed Comment</option>
+</select>
+<br><br>
+<div id="log"></div>
+
+<script>
+    const logDiv = document.getElementById("log");
+    const select = document.getElementById("variableSelect");
+    let es = null;
+
+    function log(msg) {
+      const p = document.createElement("div");
+      p.textContent = msg;
+      logDiv.appendChild(p);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    function connectSSE() {
+      const variable = select.value;
+
+      if (es) es.close(); // eski bağlantıyı kapat
+
+      es = new EventSource(`http://localhost:8090/api/wikimedia/stream?variable=${encodeURIComponent(variable)}`);
+      es.onmessage = (e) => log(e.data);
+      es.onerror = () => log("SSE connection error");
+      log("SSE connected. variable=" + variable);
+    }
+
+    // sayfa açılınca bağlan
+    connectSSE();
+
+    // kullanıcı seçim değiştirince yeniden bağlan
+    select.addEventListener("change", connectSSE);
+
+    document.getElementById("startBtn").onclick = async () => {
+      const seconds = document.getElementById("seconds").value;
+      const res = await fetch(`http://localhost:8080/api/wikimedia/getChanges?second=${seconds}`);
+      log("START response: " + await res.text());
+    };
+</script>
+
+</body>
+</html>
