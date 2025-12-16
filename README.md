@@ -1,7 +1,7 @@
 # Wikimedia Kafka Streaming Project
 
-![2025-12-1611-43-08-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/e743cf5f-d23a-4889-a9f9-219b170f8dee)
 
+![2025-12-1611-43-08-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/c3e7423f-40fb-4248-8a0b-dfea038834c5)
 
 Dieses Projekt demonstriert eine einfache, ereignisgesteuerte Microservice-Architektur mit **Spring Boot**, **Apache Kafka**, **WebFlux** und **Server-Sent Events (SSE)**.
 
